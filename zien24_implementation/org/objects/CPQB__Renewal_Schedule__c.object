@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>CPQB__Renewal_Date_Offset_in_Days__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Renewal Date Offset in Days</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPQB__Renewal_Date_Offset_in_Months__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Renewal Date Offset in Months</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPQB__Renewal_Date_Reference_Point__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Renewal Date Reference Point</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Last Order End Date</fullName>
+                    <default>false</default>
+                    <label>Last Order End Date</label>
+                </value>
+                <value>
+                    <fullName>Last Order Start Date</fullName>
+                    <default>false</default>
+                    <label>Last Order Start Date</label>
+                </value>
+                <value>
+                    <fullName>First Order End Date</fullName>
+                    <default>false</default>
+                    <label>First Order End Date</label>
+                </value>
+                <value>
+                    <fullName>First Order Start Date</fullName>
+                    <default>false</default>
+                    <label>First Order Start Date</label>
+                </value>
+                <value>
+                    <fullName>Opportunity Close Date</fullName>
+                    <default>false</default>
+                    <label>Opportunity Close Date</label>
+                </value>
+                <value>
+                    <fullName>Last Recurring Order End Date</fullName>
+                    <default>false</default>
+                    <label>Last Recurring Order End Date</label>
+                </value>
+                <value>
+                    <fullName>Last Recurring Order Start Date</fullName>
+                    <default>false</default>
+                    <label>Last Recurring Order Start Date</label>
+                </value>
+                <value>
+                    <fullName>First Recurring Order End Date</fullName>
+                    <default>false</default>
+                    <label>First Recurring Order End Date</label>
+                </value>
+                <value>
+                    <fullName>First Recurring Order Start Date</fullName>
+                    <default>false</default>
+                    <label>First Recurring Order Start Date</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CPQB__Renewal_Source__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Renewal Source</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Opportunity</fullName>
+                    <default>false</default>
+                    <label>Opportunity</label>
+                </value>
+                <value>
+                    <fullName>Order</fullName>
+                    <default>false</default>
+                    <label>Order</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CPQB__Renewal_Target__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Renewal Target</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Opportunity</fullName>
+                    <default>false</default>
+                    <label>Opportunity</label>
+                </value>
+                <value>
+                    <fullName>Order</fullName>
+                    <default>false</default>
+                    <label>Order</label>
+                </value>
+                <value>
+                    <fullName>Task</fullName>
+                    <default>false</default>
+                    <label>Task</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CPQB__Renewal_Type__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Renewal Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Create the Target Object</fullName>
+                    <default>false</default>
+                    <label>Create the Target Object</label>
+                </value>
+                <value>
+                    <fullName>Create the Target Object with Products</fullName>
+                    <default>false</default>
+                    <label>Create the Target Object with Products</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Renewal Schedule</label>
+    <listViews>
+        <fullName>CPQB__All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Renewal Schedule Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Renewal Schedules</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>
