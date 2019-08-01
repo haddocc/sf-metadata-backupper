@@ -37,6 +37,6 @@ To deploy:
 
 ## Special Notes
 
-Because of a bug in the Summer '19 release of SalesForce the Task object gives trouble when deploying because when you 
+Because of a [bug in the Summer '19 release](https://salesforce.stackexchange.com/questions/266416/is-anyone-getting-deployment-issues-with-task-object-new-list-views-from-46-cau) of SalesForce the Task object gives trouble when deploying because when you 
 back it up it adds some weird replacement variables looking like this `ENCODED:{!` as labels. We remove this 
 automatically with `sed`. If anything weird pops up with the deployment of the Task Object its good to keep this in mind.
