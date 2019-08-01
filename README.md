@@ -20,6 +20,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 export ANT_HOME=/usr/local/Cellar/ant/1.10.6/libexec
 export PATH="${ANT_HOME}/bin:$PATH"
 ```
+Create a .env file from the .env.example and fill in the OAuth credentials.
 
 ## Steps
 
