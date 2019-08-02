@@ -55,7 +55,7 @@ if [ $1 != 'skipapi' ]; then
                 xmllint --noblanks - | \
                 awk -v A="$ELEMENT_TO_REMOVE" '{ sub(A, k); print; }' | \
                 xmllint --encode UTF-8 --format - | \
-                tee > $IMPLEMENTATION_FOLDER/org/package.xml
+                tee > $IMPLEMENTATION_FOLDER/org/custom-package.xml
         fi
 
     else
@@ -72,7 +72,6 @@ sed -i '' -e "s/{\$SF_USERNAME}/$(echo $SF_USERNAME | sed 's/\//\\\//g')/g" \
 
 cd $IMPLEMENTATION_FOLDER
 ant retrieveUnpackaged
-
 cd ..
 
 cp $TMP_FILE $PROPERTIES_FILE

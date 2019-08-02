@@ -13,6 +13,6 @@ gen
 
 # Other
 .env
-.zip
-.tmp
-.object
+*.zip
+*.tmp
+*.object
