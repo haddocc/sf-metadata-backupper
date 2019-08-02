@@ -42,18 +42,30 @@ if [ $1 != 'skipapi' ]; then
             echo $RESPONSE | \
                 sed -e 's/xmlns=".*"//g' | \
                 xmllint --xpath '//types/name[text()="CustomObject"]/..' - | \
-                (echo '<Package xmlns="http://soap.sforce.com/2006/04/metadata">' && cat && echo '</Package>') | \
+                (echo '<Package xmlns="http://soap.sforce.com/2006/04/metadata">' && cat && echo '<version>45.0</version></Package>') | \
                 xmllint --encode UTF-8 --format - | \
                 tee > $IMPLEMENTATION_FOLDER/org/package-custom-objects.xml
+
+            echo $RESPONSE | \
+                sed -e 's/xmlns=".*"//g' | \
+                xmllint --xpath '//types/name[text()="CustomMetadata"]/..' - | \
+                (echo '<Package xmlns="http://soap.sforce.com/2006/04/metadata">' && cat && echo '<version>45.0</version></Package>') | \
+                xmllint --encode UTF-8 --format - | \
+                tee > $IMPLEMENTATION_FOLDER/org/package-custom-metadata.xml
 
             ELEMENT_TO_REMOVE=$( echo $RESPONSE | \
                                     sed -e 's/xmlns=".*"//g' | \
                                     xmllint --xpath '//types/name[text()="CustomObject"]/..' --format - | \
                                     sed 's/\//\\\//g' )
+            ELEMENT_TO_REMOVE_AS_WELL=$( echo $RESPONSE | \
+                                    sed -e 's/xmlns=".*"//g' | \
+                                    xmllint --xpath '//types/name[text()="CustomMetadata"]/..' --format - | \
+                                    sed 's/\//\\\//g' )
 
             echo $RESPONSE | \
                 xmllint --noblanks - | \
                 awk -v A="$ELEMENT_TO_REMOVE" '{ sub(A, k); print; }' | \
+                awk -v A="$ELEMENT_TO_REMOVE_AS_WELL" '{ sub(A, k); print; }' | \
                 xmllint --encode UTF-8 --format - | \
                 tee > $IMPLEMENTATION_FOLDER/org/custom-package.xml
         fi
@@ -71,7 +83,7 @@ sed -i '' -e "s/{\$SF_USERNAME}/$(echo $SF_USERNAME | sed 's/\//\\\//g')/g" \
            $PROPERTIES_FILE
 
 cd $IMPLEMENTATION_FOLDER
-ant retrieveUnpackaged
+ant -verbose retrieveUnpackaged
 cd ..
 
 cp $TMP_FILE $PROPERTIES_FILE
