@@ -4,7 +4,7 @@ set -a # automatically export all variables. This requires appropriate shell quo
 source .env
 set +a
 
-if [ $1 != 'skipapi' ]; then
+if [ $# -eq 0 ] || [ $1 != 'skipapi' ]; then
 
     RESPONSE=$(curl -s -X POST "$SALESFORCE_OAUTH_URL")
     TIMEOUT=$((SECONDS+180))
@@ -83,7 +83,7 @@ sed -i '' -e "s/{\$SF_USERNAME}/$(echo $SF_USERNAME | sed 's/\//\\\//g')/g" \
            $PROPERTIES_FILE
 
 cd $IMPLEMENTATION_FOLDER
-ant -verbose retrieveUnpackaged
+ant retrieveUnpackaged
 cd ..
 
 cp $TMP_FILE $PROPERTIES_FILE
