@@ -36,7 +36,24 @@ if jq -e . >/dev/null 2>&1 <<<"$RESPONSE"; then
     if [ $PACKAGE_DONE == "true" ]; then
         echo 'Done building package.xml'
         RESPONSE=$(curl -s "$PACKAGE_URL/$SF_PACKAGE_ID/" )
-        echo $RESPONSE > $IMPLEMENTATION_FOLDER/org/package.xml
+
+        echo $RESPONSE | \
+            sed -e 's/xmlns=".*"//g' | \
+            xmllint --xpath '//types/name[text()="CustomObject"]/..' - | \
+            (echo '<Package xmlns="http://soap.sforce.com/2006/04/metadata">' && cat && echo '</Package>') | \
+            xmllint --encode UTF-8 --format - | \
+            tee > $IMPLEMENTATION_FOLDER/org/package-custom-objects.xml
+
+        ELEMENT_TO_REMOVE=$( echo $RESPONSE | \
+                                sed -e 's/xmlns=".*"//g' | \
+                                xmllint --xpath '//types/name[text()="CustomObject"]/..' --format - | \
+                                sed 's/\//\\\//g' )
+
+        echo $RESPONSE | \
+            xmllint --noblanks - | \
+            awk -v A="$ELEMENT_TO_REMOVE" '{ sub(A, k); print; }' | \
+            xmllint --encode UTF-8 --format - | \
+            tee > $IMPLEMENTATION_FOLDER/org/package.xml
     fi
 
     cp $PROPERTIES_FILE $TMP_FILE
@@ -46,6 +63,8 @@ if jq -e . >/dev/null 2>&1 <<<"$RESPONSE"; then
                $PROPERTIES_FILE
     cp $TMP_FILE $PROPERTIES_FILE
     rm $TMP_FILE
+
+    ant retr
 
     exit 0
 else

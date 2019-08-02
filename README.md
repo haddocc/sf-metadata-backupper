@@ -11,6 +11,7 @@ That way we keep sensitive information in house.
 - Apache Ant 1.6 or above (install instructions also present in Readme.html)
 - jq - Lightweight and flexible command-line JSON processor
 - curl
+- xmllint (part of libxml2)
 
 ## Setup
 
