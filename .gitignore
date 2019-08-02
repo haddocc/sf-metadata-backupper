@@ -16,3 +16,4 @@ gen
 *.zip
 *.tmp
 *.object
+zien24_implementation/org/*/
