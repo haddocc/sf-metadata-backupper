@@ -14,7 +14,7 @@ if [ $# -eq 0 ] || [ $1 != 'skipapi' ]; then
         SF_ACCESS_TOKEN=$(echo $RESPONSE | jq -r '.access_token')
         SF_INSTANCE_URL=$(echo $RESPONSE | jq -r '.instance_url')
         PAYLOAD=$(jq -n --arg accessToken "$SF_ACCESS_TOKEN" --arg instanceUrl "$SF_INSTANCE_URL" \
-        --arg componentOption "all"  '{"accessToken":$accessToken,"instanceUrl":$instanceUrl,"componentOption":$componentOption}')
+        --arg componentOption "unmanaged"  '{"accessToken":$accessToken,"instanceUrl":$instanceUrl,"componentOption":$componentOption}')
 
         # TODO: Error handling
         RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$START_JOB_URL" )
@@ -39,35 +39,29 @@ if [ $# -eq 0 ] || [ $1 != 'skipapi' ]; then
             echo 'Done building package.xml'
             RESPONSE=$(curl -s "$PACKAGE_URL/$SF_PACKAGE_ID/" )
 
-            echo $RESPONSE | \
-                sed -e 's/xmlns=".*"//g' | \
-                xmllint --xpath '//types/name[text()="CustomObject"]/..' - | \
-                (echo '<Package xmlns="http://soap.sforce.com/2006/04/metadata">' && cat && echo '<version>45.0</version></Package>') | \
-                xmllint --encode UTF-8 --format - | \
-                tee > $IMPLEMENTATION_FOLDER/org/package-custom-objects.xml
+
+#            Whenever you need to manipulate xml you can use this
+#            echo $RESPONSE | \
+#                sed -e 's/xmlns=".*"//g' | \
+#                xmllint --xpath '//types/name[text()="CustomObject"]/..' - | \
+#                (echo '<Package xmlns="http://soap.sforce.com/2006/04/metadata">' && cat && echo '<version>45.0</version></Package>') | \
+#                xmllint --encode UTF-8 --format - | \
+#                tee > $IMPLEMENTATION_FOLDER/org/package-custom-objects.xml
+#
+#            ELEMENT_TO_REMOVE=$( echo $RESPONSE | \
+#                                    sed -e 's/xmlns=".*"//g' | \
+#                                    xmllint --xpath '//types/name[text()="CustomObject"]/..' --format - | \
+#                                    sed 's/\//\\\//g' )
+#            in combination with
+#
+#               echo $RESPONSE | \
+#                xmllint --noblanks - | \
+#                xmllint --encode UTF-8 --format - | \
+#                tee > $IMPLEMENTATION_FOLDER/org/custom-package.xml
 
             echo $RESPONSE | \
-                sed -e 's/xmlns=".*"//g' | \
-                xmllint --xpath '//types/name[text()="CustomMetadata"]/..' - | \
-                (echo '<Package xmlns="http://soap.sforce.com/2006/04/metadata">' && cat && echo '<version>45.0</version></Package>') | \
-                xmllint --encode UTF-8 --format - | \
-                tee > $IMPLEMENTATION_FOLDER/org/package-custom-metadata.xml
-
-            ELEMENT_TO_REMOVE=$( echo $RESPONSE | \
-                                    sed -e 's/xmlns=".*"//g' | \
-                                    xmllint --xpath '//types/name[text()="CustomObject"]/..' --format - | \
-                                    sed 's/\//\\\//g' )
-            ELEMENT_TO_REMOVE_AS_WELL=$( echo $RESPONSE | \
-                                    sed -e 's/xmlns=".*"//g' | \
-                                    xmllint --xpath '//types/name[text()="CustomMetadata"]/..' --format - | \
-                                    sed 's/\//\\\//g' )
-
-            echo $RESPONSE | \
-                xmllint --noblanks - | \
-                awk -v A="$ELEMENT_TO_REMOVE" '{ sub(A, k); print; }' | \
-                awk -v A="$ELEMENT_TO_REMOVE_AS_WELL" '{ sub(A, k); print; }' | \
-                xmllint --encode UTF-8 --format - | \
-                tee > $IMPLEMENTATION_FOLDER/org/custom-package.xml
+                xmllint --noblanks --encode UTF-8 --format - | \
+                tee > $IMPLEMENTATION_FOLDER/org/package.xml
         fi
 
     else
@@ -76,6 +70,9 @@ if [ $# -eq 0 ] || [ $1 != 'skipapi' ]; then
     fi
 fi
 
+# Task Object label are screwed up, known error (https://salesforce.stackexchange.com/questions/266416/is-anyone-getting-deployment-issues-with-task-object-new-list-views-from-46-cau)
+# sed -E 's/((<label>)ENCODE.*_)([^}]+)}(.*)/\2\3\4/g' test2/objects/Task.object
+
 cp $PROPERTIES_FILE $TMP_FILE
 sed -i '' -e "s/{\$SF_USERNAME}/$(echo $SF_USERNAME | sed 's/\//\\\//g')/g" \
           -e "s/{\$SF_PASSWORD}/$(echo $SF_PASSWORD | sed 's/\//\\\//g')/g" \
@@ -83,7 +80,9 @@ sed -i '' -e "s/{\$SF_USERNAME}/$(echo $SF_USERNAME | sed 's/\//\\\//g')/g" \
            $PROPERTIES_FILE
 
 cd $IMPLEMENTATION_FOLDER
-ant retrieveUnpackaged
+
+ant retrieve
+
 cd ..
 
 cp $TMP_FILE $PROPERTIES_FILE
