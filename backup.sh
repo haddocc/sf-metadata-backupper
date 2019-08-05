@@ -70,9 +70,6 @@ if [ $# -eq 0 ] || [ $1 != 'skipapi' ]; then
     fi
 fi
 
-# Task Object label are screwed up, known error (https://salesforce.stackexchange.com/questions/266416/is-anyone-getting-deployment-issues-with-task-object-new-list-views-from-46-cau)
-# sed -E 's/((<label>)ENCODE.*_)([^}]+)}(.*)/\2\3\4/g' test2/objects/Task.object
-
 cp $PROPERTIES_FILE $TMP_FILE
 sed -i '' -e "s/{\$SF_USERNAME}/$(echo $SF_USERNAME | sed 's/\//\\\//g')/g" \
           -e "s/{\$SF_PASSWORD}/$(echo $SF_PASSWORD | sed 's/\//\\\//g')/g" \
@@ -82,6 +79,13 @@ sed -i '' -e "s/{\$SF_USERNAME}/$(echo $SF_USERNAME | sed 's/\//\\\//g')/g" \
 cd $IMPLEMENTATION_FOLDER
 
 ant retrieve
+
+# Task Object label are screwed up, known error (https://salesforce.stackexchange.com/questions/266416/is-anyone-getting-deployment-issues-with-task-object-new-list-views-from-46-cau)
+sed -E 's/((<label>)ENCODE.*_)([^}]+)}(.*)/\2\3\4/g' unpackaged/objects/Task.object
+
+zip -r orgbackup_$(date +%Y%m%d).zip unpackaged/
+
+# TODO: move to arbitrary location
 
 cd ..
 

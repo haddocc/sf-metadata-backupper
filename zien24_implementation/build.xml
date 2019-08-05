@@ -26,14 +26,13 @@
                      maxPoll="${sf.maxPoll}"
                      retrieveTarget="org"
                      unpackaged="org/package.xml"
-                     singlePackage="false"
-                     unzip="false"/>
+                     singlePackage="false"/>
       <!-- Retrieve the contents into another directory -->
     </target>
 
     <!-- Deploy the unpackaged set of metadata retrieved with retrieveUnpackaged and run tests in this organization's namespace only-->
     <target name="deployUnpackaged">
-      <sf:deploy username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot=""  rollbackOnError="true" checkOnly="true"/>
+      <sf:deploy username="${sf.username}" password="${sf.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="org"  rollbackOnError="true" checkOnly="true"/>
     </target>
 
     <!-- Deploy a zip of metadata files to the org -->
