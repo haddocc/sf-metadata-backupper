@@ -78,15 +78,19 @@ sed -i '' -e "s/{\$SF_USERNAME}/$(echo $SF_USERNAME | sed 's/\//\\\//g')/g" \
 
 cd $IMPLEMENTATION_FOLDER
 
-#ant retrieve
+ant retrieve
 
 # Task Object label are screwed up, known error (https://salesforce.stackexchange.com/questions/266416/is-anyone-getting-deployment-issues-with-task-object-new-list-views-from-46-cau)
-sed -E 's/((<label>)ENCODE.*_)([^}]+)}(.*)/\2\3\4/g' org/unpackaged/objects/Task.object | tee > org/unpackaged/objects/Task.object
+sed -E 's/((<label>)ENCODE.*_)([^}]+)}(.*)/\2\3\4/g' org/unpackaged/objects/Task.object > org/unpackaged/objects/Task.object.tmp
+rm org/unpackaged/objects/Task.object
+cp org/unpackaged/objects/Task.object.tmp org/unpackaged/objects/Task.object
+rm org/unpackaged/objects/Task.object.tmp
 
 cd org
 
 zip -r orgbackup_$(date +%Y%m%d).zip unpackaged/
 
+rm -rf unpackaged/
 # TODO: move to arbitrary location
 
 cd ../..
