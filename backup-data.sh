@@ -4,6 +4,8 @@ set -a # automatically export all variables. This requires appropriate shell quo
 source .env
 set +a
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 sfdx force:auth:sfdxurl:store -f auth -a MainOrg
 
 cd files
@@ -23,5 +25,8 @@ for row in $(jq '.[] | @base64' ../backup-data-cfg.json); do
 done
 
 echo 'Backup done';
+
+find $DIR/files -type f -not -path '*/\.*' -name "*.csv" -cmin -60 | zip -j $DIR/files/org_data_backup_$(date +%Y%m%d).zip -@
+find $DIR/files -type f -not -path '*/\.*' -name "*.csv" -cmin -60 -exec rm -f {} \;
 
 exit 0

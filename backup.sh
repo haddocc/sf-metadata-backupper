@@ -4,6 +4,8 @@ set -a # automatically export all variables. This requires appropriate shell quo
 source .env
 set +a
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 if [ $# -eq 0 ] || [ $1 != 'skipapi' ]; then
 
     RESPONSE=$(curl -s -X POST "$SALESFORCE_OAUTH_URL")
@@ -76,7 +78,7 @@ sed -i '' -e "s/{\$SF_USERNAME}/$(echo $SF_USERNAME | sed 's/\//\\\//g')/g" \
           -e "s/{\$SF_ENV}/$(echo $SF_ENV | sed 's/\//\\\//g')/g" \
            $PROPERTIES_FILE
 
-cd $IMPLEMENTATION_FOLDER
+cd $DIR/$IMPLEMENTATION_FOLDER
 
 ant retrieve
 
@@ -90,7 +92,7 @@ fi
 
 cd org
 
-zip -r ../../files/orgbackup_$(date +%Y%m%d).zip unpackaged/
+zip -r $DIR/files/org_metadata_backup_$(date +%Y%m%d).zip unpackaged/
 
 rm -rf unpackaged/
 # TODO: move to arbitrary location
@@ -100,7 +102,6 @@ cd ../..
 cp $TMP_FILE $PROPERTIES_FILE
 rm $TMP_FILE
 
-cd ../files
-find . -type f -not -path '*/\.*' -mtime +7 -exec rm -rf {} \;
+find $DIR/files -type f -not -path '*/\.*' -mtime +7 -exec rm -rf {} \;
 
 exit 0
