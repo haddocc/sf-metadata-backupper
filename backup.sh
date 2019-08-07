@@ -88,7 +88,7 @@ rm org/unpackaged/objects/Task.object.tmp
 
 cd org
 
-zip -r orgbackup_$(date +%Y%m%d).zip unpackaged/
+zip -r ../../files/orgbackup_$(date +%Y%m%d).zip unpackaged/
 
 rm -rf unpackaged/
 # TODO: move to arbitrary location

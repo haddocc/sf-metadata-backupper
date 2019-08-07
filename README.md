@@ -28,9 +28,9 @@ Create a .env file from the .env.example and fill in the organisation credential
 ## Steps for Metadata backup (full backup)
 
 For backing up and / or deploying an org's metadata you need a `package.xml`-file which determines exactly what metadata 
-to retrieve and deploy. We are going to split this up in 2 files, one with `CustomObjects` and one without.
+to retrieve and deploy. ~~We are going to split this up in 2 files, one with `CustomObjects` and one without.
 This is because if there are references to CustomObjects in other metadata type you get errors.
-So generally we first deploy the CustomObjects before referencing them.
+So generally we first deploy the CustomObjects before referencing them.~~ 
 
 To backup manually:
 1. Run `./backup.sh`

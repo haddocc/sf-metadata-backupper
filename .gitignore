@@ -19,3 +19,5 @@ gen
 zien24_implementation/org/*/
 zien24_implementation/org/package.xml
 /auth
+/files/*
+!/files/.gitkeep
