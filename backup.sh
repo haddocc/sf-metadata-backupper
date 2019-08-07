@@ -80,11 +80,13 @@ cd $IMPLEMENTATION_FOLDER
 
 ant retrieve
 
-# Task Object label are screwed up, known error (https://salesforce.stackexchange.com/questions/266416/is-anyone-getting-deployment-issues-with-task-object-new-list-views-from-46-cau)
-sed -E 's/((<label>)ENCODE.*_)([^}]+)}(.*)/\2\3\4/g' org/unpackaged/objects/Task.object > org/unpackaged/objects/Task.object.tmp
-rm org/unpackaged/objects/Task.object
-cp org/unpackaged/objects/Task.object.tmp org/unpackaged/objects/Task.object
-rm org/unpackaged/objects/Task.object.tmp
+if [ -e org/unpackaged/objects/Task.object ]; then
+    # Task Object label are screwed up, known error (https://salesforce.stackexchange.com/questions/266416/is-anyone-getting-deployment-issues-with-task-object-new-list-views-from-46-cau)
+    sed -E 's/((<label>)ENCODE.*_)([^}]+)}(.*)/\2\3\4/g' org/unpackaged/objects/Task.object > org/unpackaged/objects/Task.object.tmp
+    rm org/unpackaged/objects/Task.object
+    cp org/unpackaged/objects/Task.object.tmp org/unpackaged/objects/Task.object
+    rm org/unpackaged/objects/Task.object.tmp
+fi
 
 cd org
 

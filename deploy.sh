@@ -4,9 +4,6 @@ set -a # automatically export all variables. This requires appropriate shell quo
 source .env
 set +a
 
-# Task Object label are screwed up, known error (https://salesforce.stackexchange.com/questions/266416/is-anyone-getting-deployment-issues-with-task-object-new-list-views-from-46-cau)
-#sed -E 's/((<label>)ENCODE.*_)([^}]+)}(.*)/\2\3\4/g' test2/objects/Task.object
-
 ZIP=$(pwd)/$IMPLEMENTATION_FOLDER/org/$1
 
 #unzip $1 -d "$(pwd)/$IMPLEMENTATION_FOLDER/org"
