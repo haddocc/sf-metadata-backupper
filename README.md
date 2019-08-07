@@ -31,6 +31,7 @@ For backing up and / or deploying an org's metadata you need a `package.xml`-fil
 to retrieve and deploy. ~~We are going to split this up in 2 files, one with `CustomObjects` and one without.
 This is because if there are references to CustomObjects in other metadata type you get errors.
 So generally we first deploy the CustomObjects before referencing them.~~ 
+Striked through instruction is only necessary if you include both managed and unmanaged components in package.xml
 
 To backup manually:
 1. Run `./backup.sh`
@@ -60,9 +61,14 @@ sfdx force:org:display -u <user_email> --verbose | grep 'Sfdx Auth Url' | awk '{
 ```
 After that we can authenticate using the file like this:
 ```bash
-sfdx force:auth:sfdxurl:store -f auth
+sfdx force:auth:sfdxurl:store -f auth -a MainOrg
 ```
 ... which comes in handy if we want to setup a cron job instead of manually backing up.
 
+The authentication by auth file is part of the `./backup-data.sh` script.
+
 To back up mannually:
-1. Run `./backup-data.sh`
+1. Populate `backup-data-cfg.json` with an array of fields to select and a SalesForce object type.
+2. Run `./backup-data.sh`
+
+A zip will be created which contains csv files which are compatible with the DataLoader.

@@ -1,0 +1,4 @@
+[
+    [{ "select" : "CreatedDate, Id, WhoId, WhatId, WhoCount, WhatCount, Subject, ActivityDate, Status, Priority, OwnerId, Type", "from" : "Task" }],
+    [{ "select" : "Id, IsDeleted, Name, ParentId, OwnerId, Description", "from" : "Account" }]
+]
