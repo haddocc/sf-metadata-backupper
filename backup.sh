@@ -100,4 +100,7 @@ cd ../..
 cp $TMP_FILE $PROPERTIES_FILE
 rm $TMP_FILE
 
+cd ../files
+find . -type f -not -path '*/\.*' -mtime +7 -exec rm -rf {} \;
+
 exit 0
