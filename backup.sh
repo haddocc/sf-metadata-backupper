@@ -58,6 +58,7 @@ if [ $# -eq 0 ] || [ $1 != 'skipapi' ]; then
 #
 #               echo $RESPONSE | \
 #                xmllint --noblanks - | \
+#                awk -v A="$ELEMENT_TO_REMOVE" '{ sub(A, k); print; }' | \   <-- These can be chained
 #                xmllint --encode UTF-8 --format - | \
 #                tee > $IMPLEMENTATION_FOLDER/org/custom-package.xml
 
