@@ -5,6 +5,7 @@ source .env
 set +a
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+YESTERDAY=$(date -v -1d > /dev/null 2>&1 && date -v -1d +%Y-%m-%d || date --date="1 day ago" +%Y-%m-%d)
 
 sfdx force:auth:sfdxurl:store -f auth -a MainOrg
 
@@ -17,7 +18,7 @@ for row in $(jq '.[] | @base64' ../backup-data-cfg.json); do
      sfdx force:data:soql:query -u MainOrg \
             -q "SELECT $select
                 FROM $from
-                WHERE LastModifiedDate > $(date -v-1d +%Y-%m-%d)T22:00:00Z
+                WHERE LastModifiedDate > ${YESTERDAY}T22:00:00Z
                 AND LastModifiedDate < $(date +%Y-%m-%d)T22:00:00Z" \
             --resultformat csv | \
             tee > "${from}_$(date +%Y%m%d).csv"
