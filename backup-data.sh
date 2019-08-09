@@ -19,7 +19,7 @@ for row in $(jq '.[] | @base64' ../backup-data-cfg.json); do
             -q "SELECT $select
                 FROM $from
                 WHERE LastModifiedDate > ${YESTERDAY}T22:00:00Z
-                AND LastModifiedDate < $(date +%Y-%m-%d)T22:00:00Z" \
+                AND LastModifiedDate <= $(date +%Y-%m-%d)T22:00:00Z" \
             --resultformat csv | \
             tee > "${from}_$(date +%Y%m%d).csv"
      echo "Done backing up $from"
@@ -27,6 +27,7 @@ done
 
 echo 'Backup done';
 
+# Only zip csv files created in the last hour
 find $DIR/files -type f -not -path '*/\.*' -name "*.csv" -cmin -60 | zip -j $DIR/files/org_data_backup_$(date +%Y%m%d).zip -@
 find $DIR/files -type f -not -path '*/\.*' -name "*.csv" -cmin -60 -exec rm -f {} \;
 
